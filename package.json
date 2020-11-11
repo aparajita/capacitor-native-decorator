@@ -1,0 +1,35 @@
+{
+  "name": "ws-capacitor-native-decorator",
+  "version": "1.0.0",
+  "description": "Decorator for Capacitor plugins that allows painless JavaScript<->native integration",
+  "main": "dist/esm/index.js",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aparajita/ws-capacitor-native-decorator.git"
+  },
+  "keywords": [
+    "capacitor",
+    "plugin"
+  ],
+  "author": "Aparajita Fishman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aparajita/ws-capacitor-native-decorator/issues"
+  },
+  "homepage": "https://github.com/aparajita/ws-capacitor-native-decorator#readme",
+  "dependencies": {
+    "@capacitor/core": "^2.4.2"
+  },
+  "devDependencies": {
+    "standard-version": "^9.0.0"
+  }
+}
