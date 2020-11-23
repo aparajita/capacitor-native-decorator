@@ -3,8 +3,11 @@
 This package adds a **@​​native** decorator to TypeScript, which fundamentally changes the way we write and call Capacitor plugins.
 
 [Motivation](#motivation)
+
 [Features](#features)
+
 [Installation](#installation)
+
 [Usage](#usage)
 
 ## Motivation
