@@ -81,6 +81,23 @@ export class MyPlugin
     return Promise.resolve(convertFromString(this.getStringItem(key)));
   }
 }
+
+// And in a file that uses MyPlugin...
+async function storeCount(count: number) {
+  await plugin.setItem('count', count);
+}
+
+async function retrieveCount(): number {
+  // getItem() returns a bare DataType, **not** an object
+  const count = await plugin.getItem('count');
+  
+  // Use a type guard so we can return it as a number
+  if (typeof count === 'number') {
+    return count;
+  }
+  
+  // Oops, this shouldn't happen...
+}
 ```
 
 There are quite a number of interesting points to make about this code.
