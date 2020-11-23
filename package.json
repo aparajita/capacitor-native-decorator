@@ -3,14 +3,21 @@
   "version": "1.0.0",
   "description": "Decorator for Capacitor plugins that allows painless JavaScript<->native integration",
   "main": "dist/esm/index.js",
+  "bin": {
+    "make-ios-plugin": "dist/cli/make-ios-plugin.js"
+  },
   "files": [
     "dist",
     "LICENSE"
   ],
   "types": "dist/esm/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "release": "standard-version"
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc && tsc --build tsconfig-cli.json",
+    "watch": "nodemon -w ./src -w ./cli -w tsconfig.json -w tsconfig-cli.json --exec 'npm run build --silent' -e ts",
+    "release": "standard-version",
+    "lint": "prettier --check \"**/*.{ts,js}\"",
+    "lint.fix": "prettier --write --check \"**/*.{ts,js}\""
   },
   "repository": {
     "type": "git",
@@ -27,9 +34,16 @@
   },
   "homepage": "https://github.com/aparajita/ws-capacitor-native-decorator#readme",
   "dependencies": {
-    "@capacitor/core": "^2.4.2"
+    "@capacitor/core": "^2.4.3"
   },
   "devDependencies": {
-    "standard-version": "^9.0.0"
-  }
+    "@ionic/prettier-config": "^1.0.1",
+    "@types/node": "^14.14.9",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "standard-version": "^9.0.0",
+    "typescript": "^4.1.2"
+  },
+  "prettier": "@ionic/prettier-config"
 }
