@@ -1,15 +1,38 @@
 /**
  * A decorator that converts a JavaScript method into a native call.
  */
-import { CallOptions, CallRejectFunc, CallResolveFunc, NativeAdapter, NativeAdapterDetails } from './definitions'
-import { Capacitor, PluginResultData, PluginResultError } from '@capacitor/core'
+import { CallOptions, PluginError } from './definitions';
+import { Capacitor, PluginResultData, WebPlugin } from '@capacitor/core';
 
-export function native(adapter?: NativeAdapter) {
+const nativeMethodsProperty = '__native_methods__';
+let nativeMethods: Set<string>;
+
+export function native() {
   return function (
-    _target: any,
+    target: any,
     methodName: string,
     descriptor: PropertyDescriptor,
   ) {
+    // target is the class prototype. If the class does not yet
+    // have a __native_methods__ property, add it now.
+    const targetClass = target.constructor;
+
+    if (!targetClass.hasOwnProperty(nativeMethodsProperty)) {
+      // We'll use a set to easily ensure that no matter how
+      // many times the plugin is instantiated, the class property
+      // will only contain the set of unique native method names.
+      nativeMethods = new Set();
+
+      Object.defineProperty(targetClass, nativeMethodsProperty, {
+        configurable: false,
+        enumerable: false,
+        writable: false,
+        value: nativeMethods,
+      });
+    }
+
+    nativeMethods.add(methodName);
+
     const originalMethod = descriptor.value;
 
     // This can be done at compile time, so do it now
@@ -19,13 +42,7 @@ export function native(adapter?: NativeAdapter) {
 
     descriptor.value = function (...args: any[]) {
       if (Capacitor.isNative) {
-        return callNativeMethod.call(
-          this,
-          adapter,
-          methodName,
-          parameters,
-          args,
-        );
+        return callNativeMethod(this, methodName, parameters, args);
       } else {
         return originalMethod.apply(this, args);
       }
@@ -35,81 +52,37 @@ export function native(adapter?: NativeAdapter) {
   };
 }
 
-function callNativeMethod(
-  adapter: NativeAdapter,
+function callNativeMethod<T extends WebPlugin>(
+  plugin: T,
   methodName: string,
   parameters: string[],
   args: any[],
-) {
-  const details = getAdapterDetails(adapter, parameters, args);
-
+): Promise<any> {
   return new Promise((resolve, reject) => {
-    let resolveFunc: CallResolveFunc;
+    const options = marshalOptions(parameters, args);
 
-    if (details.resolver) {
-      resolveFunc = (data?: PluginResultData) =>
-        details.resolver(resolve, data);
-    } else {
-      resolveFunc = (data?: PluginResultData) => {
-        // If there is only one property in data, return it bare
-        if (data) {
-          const keys = Object.keys(data);
+    const resolver = (data?: PluginResultData) => {
+      // If there is only one property in data, return it bare
+      if (data) {
+        const keys = Object.keys(data);
 
-          if (keys.length === 1) {
-            return resolve(data[keys[0]]);
-          }
+        if (keys.length === 1) {
+          return resolve(data[keys[0]]);
         }
+      }
 
-        resolve(data);
-      };
-    }
+      resolve(data);
+    };
 
-    let rejectFunc: CallRejectFunc;
-
-    if (details.rejecter) {
-      rejectFunc = (error: PluginResultError) =>
-        details.rejecter(reject, error);
-    } else {
-      rejectFunc = reject;
-    }
-
-    Capacitor.toNative(this.config.name, methodName, details.options, {
+    Capacitor.toNative(plugin.config.name, methodName, options, {
       resolve: (data?: PluginResultData) => {
-        resolveFunc(data);
+        resolver(data);
       },
-      reject: (error: PluginResultError) => {
-        rejectFunc(error);
+      reject: (error: PluginError) => {
+        reject(error);
       },
     });
   });
-}
-
-function getAdapterDetails(
-  adapter: NativeAdapter,
-  parameters: string[],
-  args: any[],
-) {
-  let details: NativeAdapterDetails = {};
-  const options = marshalOptions(parameters, args);
-
-  if (adapter) {
-    // If we have an adapter, check to see if it's an object or a function.
-    if (typeof adapter === 'function') {
-      details = adapter(options);
-    } else {
-      details = adapter;
-
-      // If there is an options adapter, call it
-      if (typeof details.options === 'function') {
-        details.options = details.options(options);
-      }
-    }
-  } else {
-    // If there is no adapter, just pass the options
-    details.options = options;
-  }
-
-  return details;
 }
 
 function isObject(object: any) {
@@ -136,15 +109,15 @@ function marshalOptions(parameters: string[], args: any[]): CallOptions {
 }
 
 // Taken from https://github.com/kilianc/node-introspect
-const kArgumentsRegExp = /\(([\s\S]*?)\)/;
-const kReplaceRegExp = /[ ,\n\r\t]+/;
+const argumentsRegExp = /\(([\s\S]*?)\)/;
+const replaceRegExp = /[ ,\n\r\t]+/;
 
 function getParameterNames(func: Function) {
-  const args = kArgumentsRegExp.exec(func.toString())[1].trim();
+  const args = argumentsRegExp.exec(func.toString())[1].trim();
 
   if (args.length === 0) {
     return [];
   }
 
-  return args.split(kReplaceRegExp);
+  return args.split(replaceRegExp);
 }
