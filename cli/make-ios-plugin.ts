@@ -44,7 +44,7 @@ function main() {
     );
 
     const template = pluginMTemplate
-      .replaceAll('__plugin__', pluginName)
+      .replace(/__plugin__/g, pluginName)
       .replace('__methods__', nativeMethods.join('\n'));
 
     writeFileSync(pluginMPath, template, { encoding: 'utf-8' });
