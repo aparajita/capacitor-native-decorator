@@ -5,7 +5,8 @@ This package adds a **@​​native** decorator to TypeScript, which fundamental
 [Motivation](#motivation)<br>
 [Features](#features)<br>
 [Installation](#installation)<br>
-[Usage](#usage)
+[Usage](#usage)<br>
+[Example](#example)
 
 ## Motivation
 
@@ -237,3 +238,14 @@ Add ` && make-ios-plugin` to the `build` script in `package.json`. It will look 
 ##### 5. Add `@native() ` to your native methods
 
 Just add `@native()` above the TypeScript implementation of any methods that have a native implementation, and you’re all set!
+
+## Example
+
+A complete working example of `@native` can be found in the [ws-capacitor-secure-storage plugin](https://github.com/aparajita/ws-capacitor-secure-storage). There you can find all of the features of `@native` used:
+
+- Marshalling arguments
+- Public and private native API
+- Wrapping native calls with TypeScript code
+- Keeping state in the Typescript class
+
+I hope you find it useful.
