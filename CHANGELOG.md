@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/aparajita/ws-capacitor-native-decorator/compare/v1.0.2...v1.0.3) (2020-11-30)
+
+
+### Bug Fixes
+
+* use strict mode, fix potential bugs ([53c4da2](https://github.com/aparajita/ws-capacitor-native-decorator/commit/53c4da2abbe6d6885b4e070e798d6d1f784e422a))
+
 ### [1.0.2](https://github.com/aparajita/ws-capacitor-native-decorator/compare/v1.0.1...v1.0.2) (2020-11-29)
 
 ### 1.0.1 (2020-11-27)
