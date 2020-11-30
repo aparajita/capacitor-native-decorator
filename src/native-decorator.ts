@@ -42,7 +42,12 @@ export function native() {
 
     descriptor.value = function (...args: any[]) {
       if (Capacitor.isNative) {
-        return callNativeMethod(this, methodName, parameters, args);
+        return callNativeMethod(
+          this as WebPlugin,
+          methodName,
+          parameters,
+          args,
+        );
       } else {
         return originalMethod.apply(this, args);
       }
@@ -74,6 +79,8 @@ function callNativeMethod<T extends WebPlugin>(
       resolve(data);
     };
 
+    // @ts-ignore - toNative() is only defined in native environments,
+    // and this function is only called in native environments.
     Capacitor.toNative(plugin.config.name, methodName, options, {
       resolve: (data?: PluginResultData) => {
         resolver(data);
@@ -112,12 +119,18 @@ function marshalOptions(parameters: string[], args: any[]): CallOptions {
 const argumentsRegExp = /\(([\s\S]*?)\)/;
 const replaceRegExp = /[ ,\n\r\t]+/;
 
-function getParameterNames(func: Function) {
-  const args = argumentsRegExp.exec(func.toString())[1].trim();
+function getParameterNames(func: Function): string[] {
+  const match = argumentsRegExp.exec(func.toString());
 
-  if (args.length === 0) {
-    return [];
+  if (match) {
+    const args = match[1].trim();
+
+    if (args.length === 0) {
+      return [];
+    }
+
+    return args.split(replaceRegExp);
   }
 
-  return args.split(replaceRegExp);
+  return [];
 }

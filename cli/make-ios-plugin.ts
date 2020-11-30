@@ -15,7 +15,7 @@ __methods__
 const pluginEntryTemplate =
   '  CAP_PLUGIN_METHOD(__method__, CAPPluginReturnPromise);';
 
-const pluginNameRE = /class\s+\w+\s+extends\s+core\.WebPlugin\s+\{\s*constructor\(\)\s*\{\s*super\(\{\s*name:\s*(['"])(.+?)\1\s*,/m;
+const pluginNameRE = /class\s+\w+\s+extends\s+core\.WebPlugin\s+{\s*constructor\(\)\s*{\s*super\({\s*name:\s*(['"])(.+?)\1\s*,/m;
 const decoraterRE = /__decorate\(\[\s*native\(\)\s*],\s*(\w+)\.prototype,\s*"(.+?)",\s*null\);/gm;
 
 const iosPath = path.join('ios', 'Plugin');
@@ -48,13 +48,13 @@ function main() {
       .replace('__methods__', nativeMethods.join('\n'));
 
     writeFileSync(pluginMPath, template, { encoding: 'utf-8' });
-    console.log(`✅  Created ${pluginMPath}`);
+    console.log(`✅ Created ${pluginMPath}`);
   } catch (e) {
     fail(e.message);
   }
 }
 
-function checkPaths() {
+function checkPaths(): void | never {
   // Make sure the iOS plugin has been generated
   if (!existsSync(iosPath)) {
     fail('Couldn’t find the ios plugin — did you run `capacitor add ios`?');
@@ -71,7 +71,7 @@ function checkPaths() {
   }
 }
 
-function fail(message: string) {
+function fail(message: string): never {
   console.error('❌  ' + message);
   process.exit(1);
 }
