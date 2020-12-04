@@ -18,8 +18,6 @@ Have you ever wished you could manage state and add TypeScript convenience metho
 
 Have you ever wished you didn't have to maintain the `ios/Plugin/Plugin.m` file manually?
 
-**I know I have.**
-
 ### The mysterious `platforms` array
 
 By default, a newly created plugin contains a single value in the `platforms` array passed to the superclass constructor: `'web'`. This tells Capacitor that *all* of the code in the plugin class will *completely* disappear on native platforms. On a native platform, calls to any instance methods that exist in both the TypeScript plugin class and the native plugin will automatically be routed to the native code. Calls to any other instance methods will silently disappear into the void — which wasn’t quite what I expected.
@@ -28,11 +26,11 @@ Haven’t you ever wished you could keep some code and state in the TypeScript c
 
 What many developers may not know is that Capacitor does provide a way to call a plugin method from TypeScript: `Capacitor.toNative()`. So it is *technically* possible to keep your TypeScript code and call native methods, but  *practically* speaking it almost isn’t, because the interface of `toNative()` is cumbersome to say the least, and requires huge amounts of boilerplate code.
 
-**@​​native** solves all these problems, and much more.
+**@​native** solves all these problems, and much more.
 
 ## Features
 
-**@​​native** is a TypeScript method decorator. It’s quite simple to use. You just add it before an instance method declaration, like this:
+**@​native** is a TypeScript method decorator. It’s quite simple to use. You just add it before an instance method declaration, like this:
 
 ```typescript
 import { native } from 'ws-capacitor-native-decorator';
