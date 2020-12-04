@@ -6,6 +6,7 @@ This package adds a **@​​native** decorator to TypeScript, which fundamental
 [Features](#features)<br>
 [Installation](#installation)<br>
 [Usage](#usage)<br>
+[Caveats](#caveats)<br>
 [Example](#example)
 
 ## Motivation
@@ -217,7 +218,21 @@ Add ` && make-ios-plugin` to the `build` script in `package.json`. It will look 
 
 ##### 5. Add `@native() ` to your native methods
 
-Just add `@native()` above the TypeScript implementation of any methods that have a native implementation, and you’re all set!
+Import the `native` decorator function:
+
+```ts
+import { native } from 'ws-capacitor-native-decorator'
+```
+
+Now you can add the `@native()` decorator above the TypeScript implementation of any methods that have a native implementation, and you’re all set!
+
+## Caveats
+
+There are several issues related to usage of `@native` that you should be aware of before deciding if it’s right for you.
+
+- Decorators are experimental, and at some point their current implementation will be replaced with an official decorator implementation in ECMAScript. However, that does not mean decorators are a dead end. Even if decorators are completely dropped from TypeScript or their syntax changes dramatically when they are officially adopted, a custom compiler can be used to support the current syntax.
+
+- On inexpensive phones with limited memory and CPU, every extra byte of JavaScript incurs a cost that is greater than the equivalent native code. If you are targeting such phones, you may want to think twice before using `@native`.
 
 ## Example
 
