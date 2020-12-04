@@ -10,7 +10,7 @@ This package adds a **@​​native** decorator to TypeScript, which fundamental
 
 ## Motivation
 
-Have you ever wished you could pass values to and receive a value from a plugin without needing to construct/deconstruct and object?
+Have you ever wished you could receive a value from a plugin without needing to deconstruct and object?
 
 Have you ever wished your plugins could leverage the full power of TypeScript code when running native?
 
@@ -59,27 +59,27 @@ export class MyPlugin
   
   // 👇🏼 Here's where the magic happens. Be sure to include the ().
   @native()
-  private setStringItem(key: string, data: string): Promise<void> {
+  private setStringItem(options: { key: string, data: string }): Promise<void> {
     // Your web implementation goes here. On native platforms
     // this code won't be used, but the method's interface is the same!
   }
   
   // More magic!
   @native()
-  private getStringItem(key: string): Promise<string> {
+  private getStringItem({ key: string }): Promise<string> {
     // Web implementation goes here. Same interface on native platforms.
   }
   
   setItem(key: string, data: DataType): Promise<void> {
     // I'll leave convertToString() up to you :)
     this._storageCount += 1;
-    this.setStringItem(key, convertToString(data));
+    this.setStringItem({ key, data: convertToString(data) });
     return Promise.resolve();
   }
   
   getItem(key: string): Promise<DataType> {
     // I'll leave convertFromString() up to you :)
-    return Promise.resolve(convertFromString(this.getStringItem(key)));
+    return Promise.resolve(convertFromString(this.getStringItem({ key })));
   }
 }
 
@@ -113,31 +113,13 @@ As in the example above, you can modify the parameters going into the native met
 Because you have free access to TypeScript when running native, you can let your native code focus on things only it *can* do, or on things it does best. Lets face it — it's way easier to do most stuff in TypeScript than in Swift or Java. And anything native code does has to be duplicated across iOS and Android in two different languages and SDKs. So having the ability to move code out of native and into TypeScript is a huge win.
 
 **Natural calling syntax**
-Looking at the code above, you may have noticed that separate, non-object parameters are being passed to and returned from a method that is marked native. You may be scratching your head and thinking, ”Wait, how is that possible? I thought we have to pass and return an object, even for a single value! (Grrrrr...)”
+Looking at the code above, you may have noticed that non-object parameters are being returned from a method that is marked native. You may be scratching your head and thinking, “Wait, how is that possible? I thought we have to return an object, even for a single value.”
 
-The `@native` decorator makes this possible in two ways:
-
-- Parameters passed in are marshalled into an object before being passed as options to the native code (as required by Capacitor). The keys of the object are the parameter names as declared in the method signature. If there is only a single parameter which is a plain object, it is passed as is.
-- If the object returned by a native method contains a single property, the call to the method resolves to the bare value of that property. In any other case, the call resolves to the returned object.
+The `@native` decorator makes this possible. If the object returned by a native method contains a single property, the call to the method resolves to the bare value of that property. In any other case, the call resolves to the returned object.
 
 For example:
 
 ```typescript
-// This call to setStringItem...
-this.setStringItem("foo", "bar")
-
-// passes this options object to the native code
-{ "key": "foo", "data": "bar" }
-
-// A call to this method...
-@native()
-setObject(value: Object): Promise<void> {}
-
-plugin.setObject({ name: "Max", age: 32 })
-
-// would pass this options object to the native code
-{ "name": "Max", "age": 32 }
-
 // If the native implementation of a @native method returns this...
 { value: "foobar" }  // The property name is irrelevant, it can be anything
 
@@ -243,7 +225,7 @@ Just add `@native()` above the TypeScript implementation of any methods that hav
 
 A complete working example of `@native` can be found in the [ws-capacitor-secure-storage plugin](https://github.com/aparajita/ws-capacitor-secure-storage). There you can find all of the features of `@native` used:
 
-- Marshalling arguments
+- Returning non-object values
 - Public and private native API
 - Wrapping native calls with TypeScript code
 - Keeping state in the Typescript class

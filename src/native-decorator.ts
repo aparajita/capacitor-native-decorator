@@ -35,21 +35,11 @@ export function native() {
 
     const originalMethod = descriptor.value;
 
-    // This can be done at compile time, so do it now
-    const parameters = Capacitor.isNative
-      ? getParameterNames(originalMethod)
-      : [];
-
-    descriptor.value = function (...args: any[]) {
+    descriptor.value = function (options?: CallOptions) {
       if (Capacitor.isNative) {
-        return callNativeMethod(
-          this as WebPlugin,
-          methodName,
-          parameters,
-          args,
-        );
+        return callNativeMethod(this as WebPlugin, methodName, options);
       } else {
-        return originalMethod.apply(this, args);
+        return originalMethod.call(this, options);
       }
     };
 
@@ -60,12 +50,9 @@ export function native() {
 function callNativeMethod<T extends WebPlugin>(
   plugin: T,
   methodName: string,
-  parameters: string[],
-  args: any[],
+  options?: CallOptions,
 ): Promise<any> {
   return new Promise((resolve, reject) => {
-    const options = marshalOptions(parameters, args);
-
     const resolver = (data?: PluginResultData) => {
       // If there is only one property in data, return it bare
       if (data) {
@@ -90,47 +77,4 @@ function callNativeMethod<T extends WebPlugin>(
       },
     });
   });
-}
-
-function isObject(object: any) {
-  return (
-    typeof object === 'object' && !Array.isArray(object) && object !== null
-  );
-}
-
-function marshalOptions(parameters: string[], args: any[]): CallOptions {
-  // If there is only one parameter and the arg is a plain object,
-  // that can be passed directly as the native plugin call options.
-  if (args.length === 1 && isObject(args[0])) {
-    return args[0];
-  }
-
-  // Marshal the arguments into an object
-  const options: CallOptions = {};
-
-  for (let i = 0; i < parameters.length; i++) {
-    options[parameters[i]] = args[i];
-  }
-
-  return options;
-}
-
-// Taken from https://github.com/kilianc/node-introspect
-const argumentsRegExp = /\(([\s\S]*?)\)/;
-const replaceRegExp = /[ ,\n\r\t]+/;
-
-function getParameterNames(func: Function): string[] {
-  const match = argumentsRegExp.exec(func.toString());
-
-  if (match) {
-    const args = match[1].trim();
-
-    if (args.length === 0) {
-      return [];
-    }
-
-    return args.split(replaceRegExp);
-  }
-
-  return [];
 }
