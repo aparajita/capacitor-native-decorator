@@ -1,6 +1,8 @@
-# ws-capacitor-native-decorator
+# capacitor-native-decorator
 
 This package adds a **@​​native** decorator to TypeScript, which fundamentally changes the way we write and call Capacitor plugins.
+
+**NOTE:** This package has only been tested with Capacitor 2.
 
 [Motivation](#motivation)<br>
 [Features](#features)<br>
@@ -34,7 +36,7 @@ What many developers may not know is that Capacitor does provide a way to call a
 **@​native** is a TypeScript method decorator. It’s quite simple to use. You just add it before an instance method declaration, like this:
 
 ```typescript
-import { native } from 'ws-capacitor-native-decorator';
+import { native } from '@aparajita/capacitor-native-decorator';
 
 export type DataType = string | number | boolean | Array<any> | Object | null | Date;
 
@@ -132,9 +134,9 @@ When you install this package, a `make-ios-plugin` binary is installed. Executin
 ## Installation
 
 ```sh
-pnpm install ws-capacitor-native-decorator tslib # 'pnpm add' also works
-npm install ws-capacitor-native-decorator tslib
-yarn add ws-capacitor-native-decorator tslib
+pnpm install @aparajita/capacitor-native-decorator tslib # 'pnpm add' also works
+npm install @aparajita/capacitor-native-decorator tslib
+yarn add @aparajita/capacitor-native-decorator tslib
 ```
 
 `tslib` contains the code that implements decorators. It is tree shaken by `rollup` during the build, so adds very little code.
@@ -198,7 +200,7 @@ export default {
       // @see https://github.com/rollup/plugins/tree/master/packages/node-resolve#resolveonly
       resolveOnly: [
         'tslib',
-        'ws-capacitor-native-decorator'
+        '@aparajita/capacitor-native-decorator'
       ],
     }),
     commonjs(),
@@ -206,7 +208,7 @@ export default {
 };
 ```
 
-The important thing is to include `'tslib'` and `'ws-capacitor-native-decorator'` in the `resolveOnly` array.
+The important thing is to include `'tslib'` and `'@aparajita/capacitor-native-decorator'` in the `resolveOnly` array.
 
 ##### 4. Call `make-ios-plugin` in the `build` script
 
@@ -221,7 +223,7 @@ Add ` && make-ios-plugin` to the `build` script in `package.json`. It will look 
 Import the `native` decorator function:
 
 ```ts
-import { native } from 'ws-capacitor-native-decorator'
+import { native } from '@aparajita/capacitor-native-decorator'
 ```
 
 Now you can add the `@native()` decorator above the TypeScript implementation of any methods that have a native implementation, and you’re all set!
@@ -236,7 +238,7 @@ There are several issues related to usage of `@native` that you should be aware 
 
 ## Example
 
-A complete working example of `@native` can be found in the [ws-capacitor-secure-storage plugin](https://github.com/aparajita/ws-capacitor-secure-storage). There you can find all of the features of `@native` used:
+A complete working example of `@native` can be found in the [capacitor-secure-storage plugin](https://github.com/aparajita/capacitor-secure-storage). There you can find all of the features of `@native` used:
 
 - Returning non-object values
 - Public and private native API
