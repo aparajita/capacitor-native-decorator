@@ -1,2 +1,2 @@
-export * from './definitions';
-export * from './native-decorator';
+export * from './definitions'
+export * from './native-decorator'
