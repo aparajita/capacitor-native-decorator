@@ -14,7 +14,7 @@
     "outDir": "dist/cli",
     "sourceMap": true,
     "strict": true,
-    "target": "es6"
+    "target": "esnext"
   },
   "files": [
     "cli/make-ios-plugin.ts"
