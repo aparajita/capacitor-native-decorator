@@ -1,8 +1,11 @@
 {
   "name": "@aparajita/capacitor-native-decorator",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "Decorator for Capacitor plugins that allows painless JavaScript<->native integration",
-  "main": "dist/esm/index.js",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
   "bin": {
     "make-ios-plugin": "dist/cli/make-ios-plugin.js"
   },
@@ -10,14 +13,19 @@
     "dist",
     "LICENSE"
   ],
-  "types": "dist/esm/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc && tsc --build tsconfig-cli.json",
-    "watch": "nodemon -w ./src -w ./cli -w tsconfig.json -w tsconfig-cli.json --exec 'npm run build --silent' -e ts",
-    "release": "standard-version",
-    "lint": "prettier --check \"**/*.{ts,js}\"",
-    "lint.fix": "prettier --write --check \"**/*.{ts,js}\""
+    "build": "pnpm run clean && tsc && tsc --build tsconfig-cli.json && rollup -c rollup.config.js",
+    "watch": "nodemon -w ./src -w ./cli -w tsconfig.json -w tsconfig-cli.json --exec 'pnpm run build --silent' -e ts",
+    "lint": "eslint . --ext .vue,.js,.cjs,.mjs,.ts",
+    "lint.fix": "eslint . --ext .vue,.js,.cjs,.mjs,.ts --fix",
+    "lint.full": "pnpm lint && pnpm prettier && pnpm type-check && echo '✅ All good!'",
+    "lint.full.fix": "pnpm lint.fix && pnpm prettier.fix && pnpm type-check && echo '✅ All good!'",
+    "prettier": "prettier --check \"**/*.{ts,js}\"",
+    "prettier.fix": "prettier --write --check \"**/*.{ts,js}\"",
+    "type-check": "tsc --noEmit",
+    "release": "commit-and-tag-version",
+    "push": "git push --follow-tags origin main && pnpm publish"
   },
   "repository": {
     "type": "git",
@@ -34,16 +42,25 @@
   },
   "homepage": "https://github.com/aparajita/capacitor-native-decorator#readme",
   "dependencies": {
-    "@capacitor/core": "^2.4.7"
+    "@capacitor/core": "^3.6.0",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@ionic/prettier-config": "^1.0.1",
-    "@types/node": "^14.14.36",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.2.1",
+    "@aparajita/eslint-config-base": "link:../eslint-config-base",
+    "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "commit-and-tag-version": "^10.0.1",
+    "eslint": "^8.18.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "nodemon": "^2.0.18",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "standard-version": "^9.1.1",
-    "typescript": "^4.2.3"
-  },
-  "prettier": "@ionic/prettier-config"
+    "rollup": "^2.75.7",
+    "typescript": "^4.7.4"
+  }
 }
