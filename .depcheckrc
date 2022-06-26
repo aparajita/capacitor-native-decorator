@@ -1,0 +1,11 @@
+ignores: [
+  "@capacitor/android",
+  "@capacitor/ios",
+  "@ionic/swiftlint-config",
+  "@types/node",
+  "prettier-plugin-java",
+  "rollup",
+  "tslib"
+]
+
+ignore-patterns: ["node_modules", "dist", "ios", "android"]
