@@ -25,7 +25,7 @@
     "prettier.fix": "prettier --write --check \"**/*.{ts,js}\"",
     "type-check": "tsc --noEmit",
     "release": "commit-and-tag-version",
-    "push": "git push --follow-tags origin main && pnpm publish"
+    "push": "git push --follow-tags origin main"
   },
   "repository": {
     "type": "git",
