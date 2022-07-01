@@ -14,17 +14,19 @@ This package adds a `@native` decorator to TypeScript, which fundamentally chang
 
 In the process of developing Capacitor plugins, I built up a big wish list:
 
-* I wish I only had to make one TypeScript version of my plugins for all platforms.
+- I wish I only had to make one TypeScript version of my plugins for all platforms.
 
-* I wish I could receive a value from a plugin without needing to deconstruct an object.
+- I wish I could pass values to a plugin without constructing an object.
 
-* I wish my plugins could leverage the full power of TypeScript code when running native.
+- I wish I could receive a single value from a plugin without needing to deconstruct an object.
 
-* I wish I could manage state and add TypeScript convenience methods in my plugin classes without having it disappear when running native.
+- I wish my plugins could leverage the full power of TypeScript code when running native.
 
-* I wish I didn’t have to maintain the `ios/Plugin/Plugin.m` file manually.
+- I wish I could manage state and add TypeScript convenience methods in my plugin classes without having it disappear when running native.
 
-This was born `@native`. With `@native`, I — and you — get all of these things and more!
+- I wish I didn’t have to maintain the `ios/Plugin/Plugin.m` file manually.
+
+Thus was born `@native`. With `@native`, I — and you — get all of these things and more!
 
 ### Where did my code go?
 
@@ -32,7 +34,7 @@ On native platforms, calls to any instance methods that exist in both the TypeSc
 
 Have you ever wished you could keep some code and state in the TypeScript class and some in the native plugin? You may think that the solution is to register your code on the other platforms, but when you run your code on iOS or Android, none of your native code gets called. That’s because the TypeScript code is kept, but no automatic mapping of TypeScript methods to native methods happens.
 
-What you may not know is that Capacitor **does** provide a way to call a plugin method from TypeScript: `Capacitor.nativeCallback()` and `Capacitor.nativePromise()`. So it is *technically* possible to keep your TypeScript code and call native methods, but  *practically* speaking it isn’t, because the interface of those methods is cumbersome and requires a lot of boilerplate code.
+What you may not know is that Capacitor **does** provide a way to call a plugin method from TypeScript: `Capacitor.nativeCallback()` and `Capacitor.nativePromise()`. So it is _technically_ possible to keep your TypeScript code and call native methods, but _practically_ speaking it isn’t, because the interface of those methods is cumbersome and requires a lot of boilerplate code.
 
 `@native` solves all these problems, and much more.
 
@@ -41,6 +43,7 @@ What you may not know is that Capacitor **does** provide a way to call a plugin 
 `@native` is a TypeScript method decorator. It’s quite simple to use. You just add it before an instance method declaration, like this:
 
 `definitions.ts`
+
 ```typescript
 import { DecoratedNativePlugin } from '@aparajita/capacitor-native-decorator'
 
@@ -53,27 +56,21 @@ export interface AwesomePlugin extends DecoratedNativePlugin {
 ```
 
 `web.ts`
+
 ```typescript
 import { native, PluginReturnType } from '@aparajita/capacitor-native-decorator'
 import { AwesomePlugin } from './definitions'
 import { PluginCallback } from '@capacitor/core'
 
-export class Awesome
-  extends WebPlugin
-  implements AwesomePlugin {
-
+export class Awesome extends WebPlugin implements AwesomePlugin {
   private _storageCount = 0
-
-  constructor() {
-    super()
-  }
 
   // This is usable even on native platforms!
   get storageCount(): number {
     return this._storageCount
   }
 
-  // This has to be defined because at runtime @native needs your
+  // IMPORTANT: This has to be defined because at runtime @native needs your
   // *registered* plugin name, and when your code is minimized the actual
   // name will be different.
   getRegisteredPluginName(): string {
@@ -81,7 +78,7 @@ export class Awesome
   }
 
   /*
-    👇🏼 Here's where the magic happens.
+    👇🏼 Here's where the 🪄magic happens.
     
     Like any method that will be native, it has to be async and should
     return a Promise. By default, @native assumes the method will return
@@ -89,7 +86,10 @@ export class Awesome
     PluginReturnType.none to the decorator.
   */
   @native(PluginReturnType.none)
-  private async setStringItem(options: { key: string, value: string }): Promise<void> {
+  private async setStringItem(options: {
+    key: string
+    value: string
+  }): Promise<void> {
     // Your web implementation goes here. On native platforms
     // this code won't be used, but the method's interface is the same!
     localStorage.setItem(key, data)
@@ -97,6 +97,9 @@ export class Awesome
   }
 
   // No need to specify the return type, by default it's a promise with data.
+  // Note that even though this is a native call, it is returning a bare string,
+  // not an object! @native automatically unwraps single values returned by
+  // native code.
   @native()
   private async getStringItem({ key: string }): Promise<string> {
     // Web implementation goes here. Same interface on native platforms.
@@ -111,28 +114,31 @@ export class Awesome
       // PluginCallback expects to be passed a data object
       callback({ time: new Date().toString() })
     })
-    
-    // On the web, the pluginCallId is of no use
-    return Promise.resolve("getTime")
+
+    // On the web, the pluginCallId can be anything, it isn't used
+    return Promise.resolve('getTime')
   }
 
-  // This is the method you will call to set an item. Better calling interface
+  // This is the method you will call to set an item. More natural
   // because you don't have to construct an object. Plus we can implement
-  // code in the JavaScript world and still access the native code.
+  // code in the TypeScript world and still access the native code.
   async setItem(key: string, value: string | number): Promise<void> {
     this._storageCount += 1
     return this.setStringItem({ key, data: String(value) })
   }
 
+  // This is the method you will call to get an item. More natural
+  // because you don't have to construct an object.
   async getItem(key: string): Promise<string> {
-    return Promise.resolve(convertFromString(this.getStringItem({ key })))
+    return this.getStringItem({ key })
   }
 }
 ```
 
 `Plugin.m`
 
-Note you can let `make-ios-plugin` generate this for you!
+Note that `make-ios-plugin` will generate this for you!
+
 ```swift
 #import <Foundation/Foundation.h>
 #import <Capacitor/Capacitor.h>
@@ -147,6 +153,7 @@ CAP_PLUGIN(Awesome, "Awesome",
 ```
 
 `Plugin.swift`
+
 ```swift
 @objc(BiometricAuth)
 public class Awesome: CAPPlugin {
@@ -155,25 +162,25 @@ public class Awesome: CAPPlugin {
     storeValue(call.getString("key"), call.getString("value))
     call.resolve()
   }
-  
+
   @objc func getStringItem(_ call: CAPPluginCall) {
     var value = ""
-    
+
     if let key = call.getString("key") {
       // getValue is defined by you somewhere
       value = getValue(key)
     }
-      
+
     call.resolve(["value": value])
   }
-  
+
   @objc func getTime(_ call: CAPPluginCall) {
     // This has to be done for callback methods
     // so you can repeatedly resolve().
     call.keepAlive = true
-    
+
     DispatchQueue.main.async {
-      Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in 
+      Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
         call.resolve([
           "time": Date().description
         ])
@@ -182,6 +189,7 @@ public class Awesome: CAPPlugin {
   }
 }
 ```
+
 And in a file that uses Awesome...
 
 ```ts
@@ -193,10 +201,8 @@ async function storeCount(count: number): Promise<void> {
 }
 
 async function retrieveCount(): Promise<number> {
-  // getItem() returns a bare string, **not** an object
   const count = await Awesome.getItem('count')
   return Number(count)
-  // We shouldn't get here
 }
 
 async function startClock(): Promise<string> {
@@ -212,26 +218,28 @@ There are quite a number of interesting points to make about this code.
 
 When you add the `@native` decorator to a method, it does all of the hard work of calling `Capacitor.nativePromise()` or `Capacitor.nativeCallback()` and returning its result for you. Anything marked `@native` will automatically route to native code when called from the TS/JS world, while still allowing you to keep all of your lovely TypeScript plugin code.
 
-For example, in the above code, some of the public API to the plugin is pure TypeScript code, which then calls private methods that will execute native code. This is *incredibly* powerful. Why? Because now the API to your plugin can be changed and extended without having to change the native code.
+For example, in the above code, some of the public API to the plugin is pure TypeScript code, which then calls private methods that will execute native code. This is _incredibly_ powerful. Why? Because now the API to your plugin can be changed and extended without having to change the native code.
 
 As in the example above, you can modify the parameters going into the native method and the result coming back. Or you can add or remove to either. Go wild! Anything you can do in TypeScript, you can now do with native plugins.
 
-Because you have free access to TypeScript when running native, you can let your native code focus on things only it *can* do, or on things it does best. Lets face it — it's way easier to do most stuff in TypeScript than in Swift or Java. And anything native code does has to be duplicated across iOS and Android in two different languages and SDKs. So having the ability to move code out of native and into TypeScript is a huge win.
+Because you have free access to TypeScript when running native, you can let your native code focus on things only it can do, or on things it does best. Lets face it — it's way easier to do most stuff in TypeScript than in Swift or Java. And anything native code does has to be duplicated across iOS and Android in two different languages and SDKs. So having the ability to move code out of native and into TypeScript is a huge win.
 
 ### Natural calling syntax
 
 Looking at the code above, you may have noticed that the `@native getStringItem()` returns `Promise<string>` and not `Promise<SomeObjectWithAString>`. You may be scratching your head and thinking, “Wait, how is that possible? I thought we have to return an object, even for a single value.”
 
-The `@native` decorator makes this possible. If the object returned by a native method contains a single property, the call to the method resolves to the bare value of that property. In any other case, the call resolves to the returned object.
+The `@native` decorator makes this possible. If the object returned by a native method contains a single property, `@native` unwraps the value and the call to the method resolves to the bare value of that property. In any other case, the call resolves to the returned object.
 
 For example:
 
 ```typescript
 // If the native implementation of a @native method returns this...
-{ value: "foobar" }  // The property name is irrelevant, it can be anything
+{
+  value: 'foobar'
+} // The property name is irrelevant, it can be anything
 
 // a call to that method would resolve to the bare string:
-"foobar"
+;('foobar')
 ```
 
 ### Plugin.m generation
@@ -252,14 +260,13 @@ So don’t be scared off by the “experimental” label on decorators. The expe
 
 ### But I’m loading web code I don’t need!
 
-On really, really cheap phones with limited memory and CPU, every extra byte of JavaScript incurs a cost that is greater than the equivalent native code. But here’s the thing:
+On really, really cheap phones with limited memory and CPU, every extra byte of JavaScript incurs a cost. But here’s the thing:
 
-* In a production app, your JavaScript/TypeScript code is minimized to a fraction of its original size.
+- In a production app, your JavaScript/TypeScript code is minimized to a fraction of its original size.
 
-* If an app is going to crash or slow down because of a few hundred extra bytes in a plugin, then you probably cannot afford to add any extra functionality — and thus code — to your app either.
+- If an app is going to crash or slow down because of a few hundred extra bytes in a plugin, then you probably cannot afford to add any other functionality — and thus code — to your app either.
 
-So unless your app has to run on memory-challenged phones, the advantages you get from `@native` are well worth any extra overhead.
-
+So unless your app has to run on extremely memory-challenged phones, the advantages you get from `@native` are well worth any extra overhead.
 
 ## Installation
 
@@ -267,13 +274,13 @@ So unless your app has to run on memory-challenged phones, the advantages you ge
 % pnpm add @aparajita/capacitor-native-decorator tslib
 ```
 
-Not using [pnpm](https://pnpm.io/)? You owe it to yourself to give it a try. It’s faster, better with monorepos, and uses *way, way* less disk space than the alternatives.
+Not using [pnpm](https://pnpm.io/)? You owe it to yourself to give it a try. It’s actually the official package manager used by the Vue team. It’s faster, better with monorepos, and uses _way, way_ less disk space than the alternatives.
 
 ## Usage
 
 Once you have installed the packages, there are a few steps you need to take to wire `@native` into your plugin.
 
-##### 1. Extend your interface from `DecoratedNativePlugin`
+#### 1. Extend your interface from `DecoratedNativePlugin`
 
 At runtime `@native` needs to know the **registered** name of your plugin. This cannot be determined from the **declared** name, because when your code is minimized the names are changed and do not match the registered name.
 
@@ -287,7 +294,7 @@ export interface AwesomePlugin extends DecoratedNativePlugin {
 }
 ```
 
-##### 2. Modify `registerPlugin`
+#### 2. Modify `registerPlugin`
 
 Change the `index.ts` of your plugin to look like this (where `Awesome` is your plugin’s name):
 
@@ -311,7 +318,7 @@ export * from './definitions'
 export { awesome as Awesome }
 ```
 
-##### 3. Modify `tsconfig.js`
+#### 3. Modify `tsconfig.js`
 
 Add the following to your `tsconfig.js` if it is not already there:
 
@@ -324,9 +331,9 @@ Add the following to your `tsconfig.js` if it is not already there:
 }
 ```
 
-##### 4. Modify `rollup.config.js`
+#### 4. Modify `rollup.config.js`
 
-You need to tell `rollup` about this plugin.
+You need to tell `rollup` about `@native` by adding three items:
 
 ```js
 export default {
@@ -338,8 +345,10 @@ export default {
       name: 'capacitorAwesome', // My plugin name
       globals: {
         '@capacitor/core': 'capacitorExports',
-        // *** You need to add this ***
-        '@aparajita/capacitor-native-decorator': 'capacitorNativeDecorator'
+
+        // ===> You need to add this <===
+        '@aparajita/capacitor-native-decorator': 'nativeDecorator'
+        // ===============================
       },
       sourcemap: true,
       inlineDynamicImports: true
@@ -351,17 +360,18 @@ export default {
       inlineDynamicImports: true
     }
   ],
-  // *** You need to add the second item here ***
+
+  // ===> You need to add the second item here <===
   external: ['@capacitor/core', '@aparajita/capacitor-native-decorator'],
-  
-  // *** You need to add this ***
+
+  // ===> You need to add this <===
   context: 'window'
 }
 ```
 
 ##### 5. Call `make-ios-plugin` in the `build` script
 
-Somewhere in your `package.json` scripts, you will want to call `make-ios-plugin` to automatically create the `Plugin.m` file for iOS.
+Somewhere in your `package.json` scripts, you will want to call `make-ios-plugin` to automatically create the `Plugin.m` file for iOS. For example:
 
 ```
 "build": "pnpm run clean && tsc && rollup -c rollup.config.js && pnpm make"
