@@ -3,9 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "esModuleInterop": true,
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -16,7 +14,5 @@
     "strict": true,
     "target": "esnext"
   },
-  "files": [
-    "cli/make-ios-plugin.ts"
-  ]
+  "files": ["cli/make-ios-plugin.ts"]
 }
