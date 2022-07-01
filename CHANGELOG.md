@@ -1,6 +1,45 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [2.0.0](https://github.com/aparajita/capacitor-native-decorator/compare/v1.1.1...v2.0.0) (2022-07-01)
+
+
+### Features
+
+* export cli ([505fce9](https://github.com/aparajita/capacitor-native-decorator/commit/505fce9938d71237450927525f9f69562ba7c06c))
+* support all types of plugin calls ([9de3114](https://github.com/aparajita/capacitor-native-decorator/commit/9de311407ab15ab1d8b92d27062e7c06d5f4d9d1))
+
+
+### Bug Fixes
+
+* add missing config ([de09347](https://github.com/aparajita/capacitor-native-decorator/commit/de09347b84effd9ef3e361a16a0478a0e3f08cfe))
+
+
+### Maintenance
+
+* add min node version ([67504d2](https://github.com/aparajita/capacitor-native-decorator/commit/67504d2e3fe05075b6576e21f3e31edc014bdac2))
+* add missing ignores ([b05b423](https://github.com/aparajita/capacitor-native-decorator/commit/b05b423f836cfe5002ca046a79b65aad94a6d293))
+* conform to eslint rule ([e412461](https://github.com/aparajita/capacitor-native-decorator/commit/e412461780d97e3412835d090d3f634f2eb7c0f6))
+* improve docs ([afef4f9](https://github.com/aparajita/capacitor-native-decorator/commit/afef4f9c886a5f2c624a6f3a37c422bc854596ea))
+* JavaScript? What’s that? :) ([45b52c2](https://github.com/aparajita/capacitor-native-decorator/commit/45b52c2c3a45c30cdee27c1d9c9965ac420dfe7f))
+* let prettier fix more types ([e6a3d92](https://github.com/aparajita/capacitor-native-decorator/commit/e6a3d928f884a8da94328ef38dc32770d40342eb))
+* modernize ([c8f0020](https://github.com/aparajita/capacitor-native-decorator/commit/c8f0020fe34cb7ab56d462caf08eeee7ea085e02))
+* no vue here ([60f50e2](https://github.com/aparajita/capacitor-native-decorator/commit/60f50e2a2fa44dfdac530a4140d3732c3bd1b20e))
+* prettier ([8cdda4e](https://github.com/aparajita/capacitor-native-decorator/commit/8cdda4ec866b9b6c68f2a38c74fad0765398f2b9))
+* prettier ([5d8edf0](https://github.com/aparajita/capacitor-native-decorator/commit/5d8edf0bd6e5aa9eb5d2e65af4021c37ac4dc4d3))
+* remove unused directories ([cf30a02](https://github.com/aparajita/capacitor-native-decorator/commit/cf30a02df7dbbc93288f70ae3595f06f37f5342c))
+* reorg scripts ([aba59d4](https://github.com/aparajita/capacitor-native-decorator/commit/aba59d4f9c5641a7c29f2f1b92df1f687e393564))
+* run prettier on json files ([8184927](https://github.com/aparajita/capacitor-native-decorator/commit/8184927717396fef54e6e86d1a7790f023ec6475))
+* scope global better ([54bfc37](https://github.com/aparajita/capacitor-native-decorator/commit/54bfc37be10073056b84badb68ff933ff973754b))
+* separate publish from push just in case ([f827b3c](https://github.com/aparajita/capacitor-native-decorator/commit/f827b3cb18712a0e1e59c5823af18b898032ac20))
+* tell rollup how to make the output ([d3b7afd](https://github.com/aparajita/capacitor-native-decorator/commit/d3b7afd270a0158d9bfce20404af69740116ec18))
+* tweaks ([9b847ce](https://github.com/aparajita/capacitor-native-decorator/commit/9b847ce70786bdf8389cd9d98754ff2341b1540e))
+* update deps ([c4bb2bb](https://github.com/aparajita/capacitor-native-decorator/commit/c4bb2bb4ef84637e92f7f2c5fb2d0505a3879fd8))
+* update docs ([953acb7](https://github.com/aparajita/capacitor-native-decorator/commit/953acb7eb7cb453523a99110f655b56af1772cdd))
+* update es version ([d2d166d](https://github.com/aparajita/capacitor-native-decorator/commit/d2d166d913eea35d41eea97f1ddf1f2d0b00f269))
+* use my dev environment config ([2cfd369](https://github.com/aparajita/capacitor-native-decorator/commit/2cfd369d386c9b04d512730bfa9428f11eca967a))
+* use shared config ([e5120db](https://github.com/aparajita/capacitor-native-decorator/commit/e5120dbf54a3aa4a1c416ea092fcc0f32e4da872))
 
 ### [1.1.1](https://github.com/aparajita/capacitor-native-decorator/compare/v1.1.0...v1.1.1) (2021-03-26)
 
