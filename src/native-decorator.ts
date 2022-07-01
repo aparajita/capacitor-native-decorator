@@ -123,11 +123,13 @@ function wrappedFunction(
   }
 }
 
+// This will be re-exported by index.ts
+// eslint-disable-next-line import/prefer-default-export
 export function native(
   returnType: PluginReturnType = PluginReturnType.promise
 ) {
   return function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types
+    // eslint-disable-next-line
     target: any,
     methodName: string,
     descriptor: PropertyDescriptor
@@ -158,7 +160,7 @@ export function native(
         )
       } else {
         throw new Error(
-          'Classes that use @native must implement the method getRegisteredPluginName(): string'
+          'Classes that use @native must implement the method getRegisteredPluginName() => string'
         )
       }
     } else {
