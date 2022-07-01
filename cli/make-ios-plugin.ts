@@ -52,7 +52,7 @@ function checkPath(): string | never {
   return pluginPath
 }
 
-function main(): void {
+function cli(): void {
   const pluginPath = checkPath()
 
   try {
@@ -94,4 +94,6 @@ function main(): void {
   }
 }
 
-main()
+cli()
+
+export default cli
