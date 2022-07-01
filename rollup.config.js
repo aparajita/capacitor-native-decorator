@@ -1,4 +1,4 @@
-export default {
+const config = {
   input: 'dist/esm/index.js',
   output: [
     {
@@ -20,3 +20,5 @@ export default {
   ],
   external: ['@capacitor/core']
 }
+
+export default config
