@@ -347,7 +347,7 @@ export default {
         '@capacitor/core': 'capacitorExports',
 
         // ===> You need to add this <===
-        '@aparajita/capacitor-native-decorator': 'nativeDecorator'
+        '@aparajita/capacitor-native-decorator': 'capacitorNativeDecorator'
         // ===============================
       },
       sourcemap: true,
