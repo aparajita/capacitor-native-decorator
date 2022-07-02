@@ -1,6 +1,6 @@
-import { name, version } from './package.json'
+import { name } from './package.json'
 
-console.log(`loaded ${name} v${version}`)
+console.log(`loaded ${name}`)
 
 export * from './definitions'
 export * from './native-decorator'
