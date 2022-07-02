@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+### [2.0.3](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.1...v2.0.3) (2022-07-02)
+
+
+### Bug Fixes
+
+* can't use version statically ([983e720](https://github.com/aparajita/capacitor-native-decorator/commit/983e72058e90d7c5cc9da6f8ee006697f56b1cad))
+
+
+### Docs
+
+* add class for github display in WebStorm ([94a272e](https://github.com/aparajita/capacitor-native-decorator/commit/94a272ec03aaec98879efcd0c51b5c8582cab9a4))
+* don’t need % for single line ([4653d6e](https://github.com/aparajita/capacitor-native-decorator/commit/4653d6e86fea3d78ac3ee388a3870a40ae0f856d))
+
+
+### Maintenance
+
+* prefer const for tree shaking ([0f9f125](https://github.com/aparajita/capacitor-native-decorator/commit/0f9f1251da56418568ac3c1ccdb00650c3358bd2))
+* **release:** 2.0.2 ([9d43a3a](https://github.com/aparajita/capacitor-native-decorator/commit/9d43a3ae34f7cf087f07b523945d14c94c8ac0a4))
+* rework release scripts ([0d3d0e7](https://github.com/aparajita/capacitor-native-decorator/commit/0d3d0e7bb12d48bceddb86e54fa49eafab039023))
+* switch to .mjs ([13bd95e](https://github.com/aparajita/capacitor-native-decorator/commit/13bd95e02bce8e55f9792f628a555908abfa2628))
+
 ### [2.0.2](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.1...v2.0.2) (2022-07-02)
 
 
