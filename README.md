@@ -273,7 +273,7 @@ So unless your app has to run on extremely memory-challenged phones, the advanta
 ## Installation
 
 ```shell
-% pnpm add @aparajita/capacitor-native-decorator tslib
+pnpm add @aparajita/capacitor-native-decorator tslib
 ```
 
 Not using [pnpm](https://pnpm.io/)? You owe it to yourself to give it a try. It’s actually the official package manager used by the Vue team. It’s faster, better with monorepos, and uses _way, way_ less disk space than the alternatives.
