@@ -1,6 +1,6 @@
 <div class="markdown-body">
 
-# capacitor-native-decorator
+# capacitor-native-decorator&nbsp;&nbsp;[![npm version](https://badge.fury.io/js/@aparajita%2Fcapacitor-native-decorator.svg)](https://badge.fury.io/js/@aparajita%2Fcapacitor-native-decorator)
 
 This package adds a `@native` decorator to TypeScript, which fundamentally changes the way we write and call Capacitor plugins.
 
