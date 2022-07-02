@@ -1,3 +1,5 @@
+<div class="markdown-body">
+
 # capacitor-native-decorator
 
 This package adds a `@native` decorator to TypeScript, which fundamentally changes the way we write and call Capacitor plugins.
@@ -400,3 +402,5 @@ A complete working example of `@native` can be found in the [capacitor-secure-st
 - Keeping state in the Typescript class
 
 I hope you find it useful!
+
+</div>
