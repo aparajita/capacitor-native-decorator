@@ -27,6 +27,7 @@ const decoraterRE =
 
 const iosPath = path.join('ios', 'Plugin')
 const pluginMPath = path.join(iosPath, 'Plugin.m')
+const greenCheck = '\x1b[32m✔\x1b[0m'
 
 function fail(message: string): never {
   console.error(`❌  ${message}`)
@@ -88,7 +89,7 @@ function cli(): void {
       .replace('__methods__', nativeMethods.join('\n'))
 
     writeFileSync(pluginMPath, template, { encoding: 'utf-8' })
-    console.log(`✅ Created ${pluginMPath}`)
+    console.log(`${greenCheck} Created ${pluginMPath}`)
   } catch (e) {
     fail(e instanceof Error ? e.message : 'Unknown error occurred')
   }
