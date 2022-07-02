@@ -37,8 +37,9 @@
     "prettier": "prettier --check .",
     "prettier.fix": "pnpm prettier --write",
     "typecheck": "tsc --noEmit",
-    "release": "commit-and-tag-version",
-    "push": "git push --follow-tags origin main"
+    "push": "git push --follow-tags origin main",
+    "release.check": "commit-and-tag-version $VERSION --dry-run",
+    "release": "commit-and-tag-version $VERSION && pnpm push && pnpm publish"
   },
   "repository": {
     "type": "git",
