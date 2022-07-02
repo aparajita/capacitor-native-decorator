@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+### [2.0.1](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.0...v2.0.1) (2022-07-02)
+
+
+### Features
+
+* log the plugin name & version ([d346688](https://github.com/aparajita/capacitor-native-decorator/commit/d34668893327caf9e3bfa0dcc882ee24bfe70fa4))
+
+
+### Style
+
+* change checkmark ([1960321](https://github.com/aparajita/capacitor-native-decorator/commit/19603217d19253f06ce457ec28e64a076331f894))
+
+
+### Maintenance
+
+* don’t build, assume it was done ([c22d8a9](https://github.com/aparajita/capacitor-native-decorator/commit/c22d8a9625e76130358572beaced1a6e742df8a6))
+* don’t generate source maps by default ([88e0ef4](https://github.com/aparajita/capacitor-native-decorator/commit/88e0ef4ee1b54455edc7ae5e8ac5ed666e82df93))
+
 ## [2.0.0](https://github.com/aparajita/capacitor-native-decorator/compare/v1.1.1...v2.0.0) (2022-07-01)
 
 
