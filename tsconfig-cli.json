@@ -10,7 +10,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist/cli",
-    "sourceMap": true,
     "strict": true,
     "target": "esnext"
   },

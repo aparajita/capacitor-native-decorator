@@ -1,4 +1,8 @@
 const config = {
+// eslint-disable-next-line import/named
+import { defineConfig } from 'rollup'
+
+export default defineConfig({
   input: 'dist/esm/index.js',
   output: [
     {
@@ -8,17 +12,15 @@ const config = {
       globals: {
         '@capacitor/core': 'capacitorExports'
       },
-      sourcemap: true,
+      sourcemap: !!process.env.SOURCE_MAP,
       inlineDynamicImports: true
     },
     {
       file: 'dist/plugin.cjs.js',
       format: 'cjs',
-      sourcemap: true,
+      sourcemap: !!process.env.SOURCE_MAP,
       inlineDynamicImports: true
     }
   ],
   external: ['@capacitor/core']
-}
-
-export default config
+})

@@ -2,6 +2,12 @@
   "name": "@aparajita/capacitor-native-decorator",
   "version": "2.0.0",
   "description": "Decorator for Capacitor plugins that allows painless TypeScript<->native integration",
+  "keywords": [
+    "capacitor",
+    "plugin"
+  ],
+  "author": "Aparajita Fishman",
+  "license": "MIT",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -19,7 +25,10 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "pnpm check && pnpm build.only",
-    "build.only": "pnpm clean && tsc && tsc --build tsconfig-cli.json && rollup -c rollup.config.js",
+    "build.dev": "SOURCE_MAP=--sourceMap pnpm build",
+    "build.only": "pnpm clean && pnpm tsc && rollup -c rollup.config.js",
+    "build.only.dev": "SOURCE_MAP=--sourceMap pnpm build.only",
+    "tsc": "tsc $SOURCE_MAP && tsc --build tsconfig-cli.json",
     "watch": "nodemon -w ./src -w ./cli -w tsconfig.json -w tsconfig-cli.json --exec 'pnpm run build.only --silent' -e ts",
     "lint": "eslint --ext .js,.cjs,.mjs,.ts .",
     "lint.fix": "pnpm lint --fix",
@@ -35,12 +44,6 @@
     "type": "git",
     "url": "git+https://github.com/aparajita/capacitor-native-decorator.git"
   },
-  "keywords": [
-    "capacitor",
-    "plugin"
-  ],
-  "author": "Aparajita Fishman",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/aparajita/capacitor-native-decorator/issues"
   },
