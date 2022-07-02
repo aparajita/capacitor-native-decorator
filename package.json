@@ -26,7 +26,7 @@
     "clean": "rimraf dist",
     "build": "pnpm check && pnpm build.only",
     "build.dev": "SOURCE_MAP=--sourceMap pnpm build",
-    "build.only": "pnpm clean && pnpm tsc && rollup -c rollup.config.js",
+    "build.only": "pnpm clean && pnpm tsc && rollup -c rollup.config.mjs",
     "build.only.dev": "SOURCE_MAP=--sourceMap pnpm build.only",
     "tsc": "tsc $SOURCE_MAP && tsc --build tsconfig-cli.json",
     "watch": "nodemon -w ./src -w ./cli -w tsconfig.json -w tsconfig-cli.json --exec 'pnpm run build.only --silent' -e ts",
