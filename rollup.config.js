@@ -1,8 +1,9 @@
-const config = {
+import json from '@rollup/plugin-json'
 // eslint-disable-next-line import/named
 import { defineConfig } from 'rollup'
 
 export default defineConfig({
+  plugins: [json()],
   input: 'dist/esm/index.js',
   output: [
     {
