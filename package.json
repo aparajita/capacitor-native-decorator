@@ -1,6 +1,6 @@
 {
   "name": "@aparajita/capacitor-native-decorator",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Decorator for Capacitor plugins that allows painless TypeScript<->native integration",
   "keywords": [
     "capacitor",
