@@ -53,6 +53,10 @@ function checkPath(): string | never {
   return pluginPath
 }
 
+function capitalize(str: string): string {
+  return `${str.at(0)?.toUpperCase()}${str.slice(1)}`
+}
+
 function cli(): void {
   const pluginPath = checkPath()
 
@@ -67,17 +71,14 @@ function cli(): void {
     const pluginName = nameMatch[1]
     const nativeMethods = [...plugin.matchAll(decoraterRE)].reduce(
       (result, match) => {
-        const groups = match.groups
-        const returnType = ['none', 'callback'].includes(
-          groups?.returnType ?? ''
-        )
-          ? 'CAPPluginReturnCallback'
-          : 'CAPPluginReturnPromise'
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const groups = match.groups!
+        const returnType = groups.returnType ?? 'promise'
+        const capReturnType = `CAPPluginReturn${capitalize(returnType)}`
         result.push(
           pluginEntryTemplate
-            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-            .replace('__method__', groups?.methodName ?? '')
-            .replace('__type__', returnType)
+            .replace('__method__', groups.methodName)
+            .replace('__type__', capReturnType)
         )
         return result
       },
