@@ -372,16 +372,7 @@ export default {
 }
 ```
 
-#### 5. Call `make-ios-plugin` in the `build` script
-
-Somewhere in your `package.json` scripts, you will want to call `make-ios-plugin` to automatically create the `Plugin.m` file for iOS. For example:
-
-```
-"build": "pnpm run clean && tsc && rollup -c rollup.config.js && pnpm make"
-"make": "make-ios-plugin"
-```
-
-#### 6. Add `@native() ` to your native methods
+#### 5. Add `@native() ` to your native methods
 
 Import the `native` decorator function:
 
@@ -397,7 +388,16 @@ Pass the return type of your methods to `@native()`:
 - `PluginReturnType.promise` – The plugin call returns data and/or it might reject. If you pass nothing to `@native()` this is the default.
 - `PluginReturnType.callback` – The plugin call is passing a callback to be called repeatedly. The native plugin will mark the call `keepAlive` and will repeatedly `resolve()`.
 
-Note that **all** methods declared in your plugin interface must return a promise, even if they are not decorated with `@native()`.
+> **IMPORTANT:** Any plugin class method that will be called in a native context **must** return a Promise, even if it is not decorated with `@native()`. If a method will **only** be used on the web, it does not need to return a Promise.
+
+#### 6. Call `make-ios-plugin` in the `build` script
+
+Somewhere in your `package.json` scripts, you will want to call `make-ios-plugin` to automatically create the `Plugin.m` file for iOS. For example:
+
+```
+"build": "pnpm run clean && tsc && rollup -c rollup.config.js && pnpm make"
+"make": "make-ios-plugin"
+```
 
 ## Example
 
