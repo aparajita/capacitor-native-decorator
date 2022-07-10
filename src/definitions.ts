@@ -3,7 +3,7 @@ import type { PluginResultError } from '@capacitor/core'
 /**
  * The options that are passed to a native plugin.
  */
-export type CallOptions = Record<string, never>
+export type CallOptions = Record<string, unknown>
 
 /**
  * Capacitor plugins may also return an error code.
