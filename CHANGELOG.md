@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+### [2.0.7](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.6...v2.0.7) (2022-07-19)
+
+
+### Maintenance
+
+* build after bump version ([7350045](https://github.com/aparajita/capacitor-native-decorator/commit/7350045a30b651fc3fce163f9ae0242ce91cc84a))
+* update scripts ([bb4cf65](https://github.com/aparajita/capacitor-native-decorator/commit/bb4cf656eab3322b9aefe86d034fcc480bcef770))
+
 ### [2.0.6](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.5...v2.0.6) (2022-07-10)
 
 
