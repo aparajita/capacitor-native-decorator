@@ -24,10 +24,10 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "pnpm check && pnpm build.only",
+    "build": "pnpm check && pnpm builder",
     "build.dev": "SOURCE_MAP=--sourceMap pnpm build",
-    "build.only": "pnpm clean && pnpm tsc && rollup -c rollup.config.mjs",
-    "build.only.dev": "SOURCE_MAP=--sourceMap pnpm build.only",
+    "builder": "pnpm clean && pnpm tsc && rollup -c rollup.config.mjs",
+    "builder.dev": "SOURCE_MAP=--sourceMap pnpm builder",
     "tsc": "tsc $SOURCE_MAP && tsc --build tsconfig-cli.json",
     "watch": "nodemon -w ./src -w ./cli -w tsconfig.json -w tsconfig-cli.json --exec 'pnpm run build.only --silent' -e ts",
     "lint": "eslint --ext .js,.cjs,.mjs,.ts .",
@@ -39,7 +39,7 @@
     "typecheck": "tsc --noEmit",
     "push": "git push --follow-tags origin main",
     "release.check": "pnpm check && commit-and-tag-version ${VERSION:+-r $VERSION} --dry-run",
-    "release.prepare": "commit-and-tag-version ${VERSION:+-r $VERSION} && pnpm build",
+    "release.prepare": "commit-and-tag-version ${VERSION:+-r $VERSION} && pnpm builder",
     "release": "pnpm push && pnpm publish"
   },
   "repository": {
