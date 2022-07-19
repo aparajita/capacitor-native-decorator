@@ -39,7 +39,8 @@
     "typecheck": "tsc --noEmit",
     "push": "git push --follow-tags origin main",
     "release.check": "pnpm check && commit-and-tag-version ${VERSION:+-r $VERSION} --dry-run",
-    "release": "commit-and-tag-version ${VERSION:+-r $VERSION} && pnpm push && pnpm publish"
+    "release.prepare": "commit-and-tag-version ${VERSION:+-r $VERSION} && pnpm build",
+    "release": "pnpm push && pnpm publish"
   },
   "repository": {
     "type": "git",
