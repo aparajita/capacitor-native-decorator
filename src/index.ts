@@ -1,6 +1,6 @@
-import { name } from './package.json'
+import pkg from './pkg'
 
-console.log(`loaded ${name}`)
+console.log(`loaded ${pkg.name}`)
 
 export * from './definitions'
 export * from './native-decorator'
