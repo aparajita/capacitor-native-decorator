@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+### [2.0.8](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.7...v2.0.8) (2022-07-25)
+
+
+### Bug Fixes
+
+* cannot import named exports from package.json ([de933f9](https://github.com/aparajita/capacitor-native-decorator/commit/de933f993dff221abf36e6cfb9929c3fd3ed640a))
+
+
+### Maintenance
+
+* add mjs so rollup config is processed ([62c4f6b](https://github.com/aparajita/capacitor-native-decorator/commit/62c4f6bc451e2b9f129cecb2c153f119e6f63608))
+* fix watch commands ([44dbb35](https://github.com/aparajita/capacitor-native-decorator/commit/44dbb35be75501afed89db053c49d265d2a8583d))
+* not referencing package.json in source ([24bf85e](https://github.com/aparajita/capacitor-native-decorator/commit/24bf85ee6b62a04c362cab2ce53b9b18927060d3))
+
 ### [2.0.7](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.6...v2.0.7) (2022-07-19)
 
 
