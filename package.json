@@ -25,7 +25,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "extract-pkg": "node scripts/packageJsonToJs.js",
-    "build": "pnpm extract-pkg && pnpm check && pnpm builder",
+    "build": "pnpm extract-pkg && pnpm check.fix && pnpm builder",
     "build.dev": "SOURCE_MAP=--sourceMap pnpm extract-pkg && pnpm build",
     "builder": "pnpm clean && pnpm tsc && rollup -c rollup.config.mjs",
     "builder.dev": "SOURCE_MAP=--sourceMap pnpm builder",
