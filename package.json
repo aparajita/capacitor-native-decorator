@@ -66,6 +66,8 @@
     "@aparajita/eslint-config-base": "^1.1.5",
     "@aparajita/prettier-config": "^1.0.0",
     "@rollup/plugin-json": "^4.1.0",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@types/node": "^18.6.1",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
