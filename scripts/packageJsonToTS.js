@@ -7,7 +7,7 @@ const pkg = require('../package.json')
   insert the entire package.json object into the global scope and we
   only want the properties we care about.
  */
-const keysToExport = ['name']
+const keysToExport = ['name', 'version']
 const exportLines = keysToExport
   .map((key) => `${key}: '${pkg[key]}'`)
   .join(',\n  ')
