@@ -23,10 +23,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "extract-pkg": "node scripts/packageJsonToTS.js",
+    "extract-info": "node scripts/extractPackageInfo.js",
     "lint.eslint": "eslint --cache --ext .js,.cjs,.mjs,.ts",
     "lint.prettier": "prettier --cache --list-different",
-    "prelint": "pnpm -s extract-pkg",
+    "prelint": "pnpm -s extract-info",
     "lint": "pnpm -s lint.eslint . && pnpm -s lint.prettier .",
     "lint.fix": "pnpm -s lint.eslint --fix . && pnpm -s lint.prettier --write .",
     "tsc": "tsc ${SOURCE_MAP} && tsc --build tsconfig-cli.json",
@@ -58,6 +58,7 @@
     "@aparajita/prettier-config": "^1.0.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@rollup/plugin-json": "^4.1.0",
     "@types/node": "^18.6.1",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
