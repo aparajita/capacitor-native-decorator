@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.0](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.8...v3.0.0) (2022-08-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Capacitor 4 (and thus iOS 13 / Android 22) is required.
+
+### Features
+
+* requires Capacitor 4 ([c096c9f](https://github.com/aparajita/capacitor-native-decorator/commit/c096c9f14484134c2e0f5af02ba4d63fd45d0782))
+
+
+### Maintenance
+
+* add pre script ([41223be](https://github.com/aparajita/capacitor-native-decorator/commit/41223be7a1272d82c92390ec8c41b852da1dcf41))
+* don’t release if working directory dirty ([545b109](https://github.com/aparajita/capacitor-native-decorator/commit/545b1098d2656983f2831b3b7bfdcd33f500b3e8))
+* improve depcheck config ([3d0e709](https://github.com/aparajita/capacitor-native-decorator/commit/3d0e709b55aceca9202b19b84eb7e195d0048212))
+* might as well fix when building ([3f2e706](https://github.com/aparajita/capacitor-native-decorator/commit/3f2e7061e3456ce3d375c25d8d2ee1f7d43a722b))
+* not using decorators ([0ed0bf9](https://github.com/aparajita/capacitor-native-decorator/commit/0ed0bf9aae0921a583e70bdeeeccfd4551d06f79))
+* overhaul deps ([76329d5](https://github.com/aparajita/capacitor-native-decorator/commit/76329d5c8a418766974f9e665157b88aaf353bc3))
+* overhaul script structure ([5f21dc8](https://github.com/aparajita/capacitor-native-decorator/commit/5f21dc832a469d0d8df631a1162e9f1fd52ac04d))
+* rework build pipeline ([da41324](https://github.com/aparajita/capacitor-native-decorator/commit/da41324173de0d2d60c4591b71cb4b2d46cff853))
+* rework lint scripts ([7e43b7d](https://github.com/aparajita/capacitor-native-decorator/commit/7e43b7d3e59f81b345e87eb7ead1c0ecf403cc58))
+* switch to info.json, add to bumpFiles ([0de58ca](https://github.com/aparajita/capacitor-native-decorator/commit/0de58ca495f584a63750bd5e2e57286265d7773b))
+* update deps ([68e2714](https://github.com/aparajita/capacitor-native-decorator/commit/68e2714c00ce6acb6cd2ab684a8a13ab7e36d441))
+* update deps, capacitor 4 ([060a386](https://github.com/aparajita/capacitor-native-decorator/commit/060a3862b3d5bee8d94cd1db9bebd047e9c9baea))
+* use awesome ultra-runner ([87b3282](https://github.com/aparajita/capacitor-native-decorator/commit/87b32822254cb3f918e44e15d76bbd1f0f7ba96c))
+* use commitlint ([ae1a956](https://github.com/aparajita/capacitor-native-decorator/commit/ae1a956c7429f29e4a83f0eb5109b938d38d0c04))
+* use husky ([232de85](https://github.com/aparajita/capacitor-native-decorator/commit/232de85d2587afe9dbd3158596443fee543c6ddf))
+
 ### [2.0.8](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.7...v2.0.8) (2022-07-25)
 
 
