@@ -4,7 +4,7 @@
 
 This package adds a `@native` decorator to TypeScript, which fundamentally changes the way we write and call Capacitor plugins.
 
-👉 **This package only works with Capacitor 3.**
+👉 **This package only works with Capacitor 4.**
 
 [Motivation](#motivation)<br>
 [Features](#features)<br>
