@@ -36,7 +36,7 @@
     "build.dev": "SOURCE_MAP=--sourceMap pnpm -s builder",
     "watch": "nodemon --exec 'pnpm -s build.dev'",
     "prepare": "husky install",
-    "prerelease": "pnpm -s lint && pnpm -s build",
+    "prerelease": "scripts/ensure-clean.sh && pnpm -s lint",
     "release": "commit-and-tag-version"
   },
   "ultra": {
