@@ -23,23 +23,20 @@
     "LICENSE"
   ],
   "scripts": {
+    "clean": "rimraf dist",
     "extract-info": "node scripts/extractPackageInfo.js",
-    "lint.eslint": "eslint --cache --ext .js,.cjs,.mjs,.ts --max-warnings 0",
-    "lint.prettier": "prettier --cache --list-different",
+    "lint.eslint": "eslint --fix --cache --ext .js,.cjs,.mjs,.ts --max-warnings 0",
+    "lint.prettier": "prettier --write --cache --list-different",
     "lint.tsc": "tsc --noEmit",
-    "prelint": "pnpm -s extract-info",
-    "prelint.fix": "pnpm -s extract-info",
-    "lint": "pnpm -s lint.eslint . && pnpm -s lint.prettier . && pnpm -s lint.tsc",
-    "lint.fix": "pnpm -s lint.eslint --fix . && pnpm -s lint.prettier --write . && pnpm -s lint.tsc",
+    "lint": "pnpm -s extract-info && pnpm -s lint.eslint . && pnpm -s lint.prettier . && pnpm -s lint.tsc",
     "tsc": "tsc ${SOURCE_MAP} && tsc --build tsconfig-cli.json",
-    "builder": "rimraf dist && pnpm -s tsc && rollup -c rollup.config.mjs",
+    "builder": "pnpm -s extract-info && pnpm -s clean && pnpm -s tsc && rollup -c rollup.config.mjs",
     "build": "pnpm -s builder",
     "build.dev": "SOURCE_MAP=--sourceMap pnpm -s builder",
     "watch": "nodemon --exec 'pnpm -s build.dev'",
     "prepare": "husky install",
-    "prerelease": "scripts/ensure-clean.sh && pnpm -s lint.fix",
-    "release": "commit-and-tag-version",
-    "release.publish": "pnpm -s release && git push --follow-tags && pnpm publish"
+    "release.pre": "scripts/ensure-clean.sh && pnpm -s lint",
+    "release": "pnpm -s release.pre && commit-and-tag-version && git push --follow-tags && pnpm publish"
   },
   "commit-and-tag-version": {
     "scripts": {
@@ -48,7 +45,6 @@
   },
   "ultra": {
     "concurrent": [
-      "lint",
       "tsc"
     ]
   },
