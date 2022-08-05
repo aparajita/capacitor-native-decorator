@@ -52,7 +52,7 @@ import { DecoratedNativePlugin } from '@aparajita/capacitor-native-decorator'
 // Always extend DecoratedNativePlugin, this ensures you implement
 // getRegisteredPluginName(), which @native needs at runtime.
 export interface AwesomePlugin extends DecoratedNativePlugin {
-  getStorageCount: () => Promise<number>
+  getStorageCount: () => number
   setItem: (key: string, data: string | number) => Promise<void>
   getItem: (key: string) => Promise<string>
   getTime: (callback: PluginCallback) => Promise<string>
@@ -70,8 +70,9 @@ export class Awesome extends WebPlugin implements AwesomePlugin {
   private _storageCount = 0
 
   // This is usable even on native platforms!
-  getStorageCount(): Promise<number> {
-    return Promise.resolve(this._storageCount)
+  // And notice it does not have to be async.
+  getStorageCount(): number {
+    return this._storageCount
   }
 
   // IMPORTANT: This has to be defined because at runtime @native needs your
@@ -200,7 +201,7 @@ import { Awesome } from 'myplugin'
 
 async function storeCount(count: number): Promise<void> {
   await Awesome.setItem('count', count)
-  console.log(`${await Awesome.getStorageCount()} item(s) stored`)
+  console.log(`${Awesome.getStorageCount()} item(s) stored`)
 }
 
 async function retrieveCount(): Promise<number> {
@@ -351,7 +352,7 @@ export default {
       globals: {
         '@capacitor/core': 'capacitorExports',
 
-        // ===> You need to add this <===
+        // ===> 👇🏼You need to add this <===
         '@aparajita/capacitor-native-decorator': 'capacitorNativeDecorator'
         // ===============================
       },
@@ -366,10 +367,10 @@ export default {
     }
   ],
 
-  // ===> You need to add the second item here <===
+  // ===> You need to add the second item here 👇 <===
   external: ['@capacitor/core', '@aparajita/capacitor-native-decorator'],
 
-  // ===> You need to add this <===
+  // ===> 👇🏼You need to add this <===
   context: 'window'
 }
 ```
@@ -390,7 +391,7 @@ Pass the return type of your methods to `@native()`:
 - `PluginReturnType.promise` – The plugin call returns data and/or it might reject. If you pass nothing to `@native()` this is the default.
 - `PluginReturnType.callback` – The plugin call is passing a callback to be called repeatedly. The native plugin will mark the call `keepAlive` and will repeatedly `resolve()`.
 
-> **IMPORTANT:** Any plugin class method that will be called in a native context **must** return a Promise, even if it is not decorated with `@native()`. If a method will **only** be used on the web, it does not need to return a Promise.
+> **NOTE:** Plugin class methods that are not marked as `@native` do NOT have to return a Promise.
 
 #### 6. Call `make-ios-plugin` in the `build` script
 
