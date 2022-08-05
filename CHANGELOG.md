@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+### [3.0.1](https://github.com/aparajita/capacitor-native-decorator/compare/v3.0.0...v3.0.1) (2022-08-05)
+
+
+### Bug Fixes
+
+* return the class instance, not registered ([1c39b88](https://github.com/aparajita/capacitor-native-decorator/commit/1c39b880b972df8b9be69aa599d8c4bc8c145b27))
+
+
+### Docs
+
+* non-`@native` methods don’t need to be async ([e03e801](https://github.com/aparajita/capacitor-native-decorator/commit/e03e801d110aa48a2edc87c8f470ef8dbdc99409))
+
+
+### Maintenance
+
+* changed script name ([56f48a8](https://github.com/aparajita/capacitor-native-decorator/commit/56f48a811861fa4aa5248346a3ad6a9b977ab142))
+* fix build system ([abfd651](https://github.com/aparajita/capacitor-native-decorator/commit/abfd651fb9c44cfe8361d0ebee0c949cf8f5261e))
+
 ## [3.0.0](https://github.com/aparajita/capacitor-native-decorator/compare/v2.0.8...v3.0.0) (2022-08-02)
 
 
