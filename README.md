@@ -311,14 +311,16 @@ import { Awesome } from './web'
 // And our code is available on all platforms. 😁
 const plugin = new Awesome()
 
-const awesome = registerPlugin<AwesomePlugin>('Awesome', {
+registerPlugin<AwesomePlugin>('Awesome', {
   web: plugin,
   ios: plugin,
   android: plugin
 })
 
+// We do NOT export the result of registerPlugin, because that would
+// circumvent the magic the @native decorator does.
 export * from './definitions'
-export { awesome as Awesome }
+export { plugin as Awesome }
 ```
 
 #### 3. Modify `tsconfig.js`
